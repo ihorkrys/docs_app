@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: docs-app
+  datasource:
+    url: jdbc:postgresql://postgredb:5433/docs_app
+    username: auto_test
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        ddl_auto: create
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: docs_app
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
