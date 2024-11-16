@@ -2,7 +2,7 @@ spring:
   application:
     name: docs-app
   datasource:
-    url: jdbc:postgresql://postgredb:5433/docs_app
+    url: jdbc:postgresql://192.168.1.240:5433/docs_app
     username: auto_test
     password: 123456
     driver-class-name: org.postgresql.Driver
