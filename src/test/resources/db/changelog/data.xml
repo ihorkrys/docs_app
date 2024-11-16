@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro
+        http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <changeSet id="1731776365044-13" author="ihorkr">
+        <insert tableName="users">
+            <column name="id" valueSequenceNext="users_seq"/>
+            <column name="login" value="test@user.com"/>
+        </insert>
+
+        <insert tableName="items">
+            <column name="id" valueSequenceNext="items_seq"/>
+            <column name="name" value="Some test name"/>
+            <column name="description" value="Short description 1"/>
+            <column name="price" value="1.0" />
+        </insert>
+
+        <insert tableName="warehouse">
+            <column name="id" valueSequenceNext="warehouse_seq"/>
+            <column name="item_id" valueSequenceCurrent="items_seq"/>
+            <column name="in_stock" value="10"/>
+        </insert>
+        <insert tableName="orders">
+            <column name="id" valueSequenceNext="orders_seq"/>
+            <column name="user_id" valueSequenceCurrent="users_seq"/>
+            <column name="item_id" valueSequenceCurrent="items_seq"/>
+            <column name="count" value="2"/>
+            <column name="total" value="6.0"/>
+            <column name="state" value="NEW"/>
+            <column name="created_date" value="now()"/>
+            <column name="updated_date" value="now()"/>
+        </insert>
+        <insert tableName="orders">
+            <column name="id" valueSequenceNext="orders_seq"/>
+            <column name="user_id" valueSequenceCurrent="users_seq"/>
+            <column name="item_id" valueSequenceCurrent="items_seq"/>
+            <column name="count" value="1"/>
+            <column name="total" value="6.0"/>
+            <column name="state" value="COMPLETED"/>
+            <column name="created_date" value="now()"/>
+            <column name="updated_date" value="now()"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" valueSequenceNext="users_seq"/>
+            <column name="login" value="test2@user.com"/>
+        </insert>
+        <insert tableName="items">
+            <column name="id" valueSequenceNext="items_seq"/>
+            <column name="name" value="Some second name"/>
+            <column name="description" value="Short description 2"/>
+            <column name="price" value="3.0" />
+        </insert>
+        <insert tableName="users">
+            <column name="id" valueSequenceNext="users_seq"/>
+            <column name="login" value="test3@user.com"/>
+        </insert>
+
+
+        <insert tableName="items">
+            <column name="id" valueSequenceNext="items_seq"/>
+            <column name="name" value="Some third name"/>
+            <column name="description" value="Short description 3"/>
+            <column name="price" value="2.0" />
+        </insert>
+
+        <insert tableName="warehouse">
+            <column name="id" valueSequenceNext="warehouse_seq"/>
+            <column name="item_id" valueSequenceCurrent="items_seq"/>
+            <column name="in_stock" value="0"/>
+        </insert>
+        <insert tableName="items">
+            <column name="id" valueSequenceNext="items_seq"/>
+            <column name="name" value="Some unknown name"/>
+            <column name="description" value="Absent in warehouse"/>
+            <column name="price" value="2.0" />
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,18 @@
+
+spring:
+  application:
+    name: store-app
+  datasource:
+    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password: 123456
+    driver-class-name: org.h2.Driver
+  liquibase:
+    change-log: db/master_test.xml
+    enabled: true
+    driver-class-name: org.h2.Driver
+    drop-first: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect

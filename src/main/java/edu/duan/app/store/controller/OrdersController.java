@@ -26,8 +26,8 @@ public class OrdersController {
         return ordersService.getAllForUser(userLogin);
     }
 
-    @GetMapping(path = "/for/user/by/sign")
-    public List<Order> getAllForUserBySign(@RequestParam String userLogin, @RequestParam OrderState state) {
+    @GetMapping(path = "/for/user/by/state")
+    public List<Order> getAllForUserByState(@RequestParam String userLogin, @RequestParam OrderState state) {
         return ordersService.getAllForUserByState(userLogin, state);
     }
 
@@ -37,12 +37,12 @@ public class OrdersController {
     }
 
     @PostMapping()
-    public @ResponseBody OrderState placeOrder(@RequestBody Order order) {
+    public @ResponseBody OrderState placeOrder(@RequestBody OrderRequest order) {
         return ordersService.placeOrder(order);
     }
 
-    @PutMapping("/{itemId}/{count}")
-    public @ResponseBody OrderState processOrder(@RequestParam ProcessingOrder processingOrder) {
+    @PutMapping()
+    public @ResponseBody OrderState processOrder(@RequestBody ProcessingOrder processingOrder) {
         return ordersService.processOrder(processingOrder.getId(), processingOrder.getOrderState(), processingOrder.getNotes(), processingOrder.getFulfillmentNotes());
     }
 }

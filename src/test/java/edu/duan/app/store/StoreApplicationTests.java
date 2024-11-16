@@ -1,9 +1,6 @@
 package edu.duan.app.store;
 
-import edu.duan.app.store.api.Order;
-import edu.duan.app.store.api.OrderState;
-import edu.duan.app.store.api.User;
-import edu.duan.app.store.api.OrderItem;
+import edu.duan.app.store.api.*;
 import edu.duan.app.store.data.*;
 import edu.duan.app.store.service.executor.NewOrderStateHandler;
 import edu.duan.app.store.service.OrderStateProvider;
@@ -43,18 +40,18 @@ class StoreApplicationTests {
         when(itemsRepository.findById(1)).thenReturn(Optional.of(warehouseEntityStub.getItem()));
         when(ordersRepository.save(any())).thenReturn(new OrderEntity());
         when(orderStateProvider.getOrderStateHandler(OrderState.NEW)).thenReturn(orderStateHandler);
-        OrderState actualOrderState = ordersService.placeOrder(buildOrder());
+        OrderState actualOrderState = ordersService.placeOrder(buildOrderRequest("test@mail.com", 1, 1));
 
         assertEquals(OrderState.NEW, actualOrderState);
         verify(ordersRepository, times(1)).save(any());
     }
 
-    private Order buildOrder() {
-        Order.OrderBuilder builder = Order.builder();
-        OrderItem.OrderItemBuilder itemBuilder = OrderItem.builder();
-        itemBuilder = itemBuilder.id(1).name("Test item").price(10.1);
-        return builder.user(new User("test@mail.com"))
-                .orderItem(itemBuilder.build()).count(1).build();
+    private OrderRequest buildOrderRequest(String login, Integer itemId, Integer count) {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setItemId(itemId);
+        orderRequest.setCount(count);
+        orderRequest.setLogin(login);
+        return orderRequest;
     }
 
     private WarehouseEntity warehouseEntityStub = new WarehouseEntity(

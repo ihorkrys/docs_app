@@ -6,12 +6,12 @@ import edu.duan.app.store.data.OrderStateEntity;
 import edu.duan.app.store.data.WarehouseRepository;
 import edu.duan.app.store.exception.ItemStockNotFoundException;
 import edu.duan.app.store.service.OrderStateHandler;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class NewOrderStateHandler implements OrderStateHandler {
     private WarehouseRepository warehouseRepository;
 

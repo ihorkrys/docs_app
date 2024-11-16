@@ -1,12 +1,10 @@
 package edu.duan.app.store.service;
 
-import edu.duan.app.store.api.OrderItem;
-import edu.duan.app.store.api.Order;
-import edu.duan.app.store.api.OrderState;
-import edu.duan.app.store.api.User;
+import edu.duan.app.store.api.*;
 import edu.duan.app.store.data.*;
 import edu.duan.app.store.exception.ItemNotFoundException;
 import edu.duan.app.store.exception.OrderNotFoundException;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OrdersService {
     private OrdersRepository ordersRepository;
     private UsersRepository usersRepository;
@@ -50,9 +48,17 @@ public class OrdersService {
 
 
     @Transactional
-    public OrderState placeOrder(Order order) {
+    public OrderState placeOrder(OrderRequest orderRequest) {
+        Order order = new Order();
+        OrderItem orderItem = new OrderItem();
+        User user = new User();
+        user.setLogin(orderRequest.getLogin());
+        orderItem.setId(orderRequest.getItemId());
+        order.setOrderItem(orderItem);
         order.setOrderState(OrderState.NEW);
-        OrderEntity orderEntity = convertToDomain(order, getEntityEntity(order.getOrderItem()), getUserEntity(order.getUser()));
+        order.setCount(orderRequest.getCount());
+        order.setUser(user);
+        OrderEntity orderEntity = convertToDomain(order, getItemEntity(order.getOrderItem()), getUserEntity(order.getUser()));
         OrderStateEntity orderStateEntity = orderStateProvider.getOrderStateHandler(order.getOrderState()).handle(orderEntity);
         ordersRepository.save(orderEntity);
         return OrderState.valueOf(orderStateEntity.name());
@@ -72,7 +78,7 @@ public class OrdersService {
         return OrderState.valueOf(orderStateEntity.name());
     }
 
-    private ItemEntity getEntityEntity(OrderItem orderItem) {
+    private ItemEntity getItemEntity(OrderItem orderItem) {
         return itemsRepository
                 .findById(orderItem.getId())
                 .orElseThrow(itemNotFoundException(orderItem.getId()));
@@ -130,7 +136,7 @@ public class OrdersService {
         orderEntity.setItem(itemEntity);
         orderEntity.setUser(user);
         orderEntity.setCount(order.getCount());
-        orderEntity.setTotal(order.getTotal());
+        orderEntity.setTotal(itemEntity.getPrice() * order.getCount());
         orderEntity.setNotes(order.getNotes());
         orderEntity.setFulfillmentNotes(order.getFulfillmentNotes());
         orderEntity.setUpdatedDate(new Timestamp(System.currentTimeMillis()));

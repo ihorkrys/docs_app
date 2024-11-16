@@ -2,11 +2,11 @@ package edu.duan.app.store.service;
 
 import edu.duan.app.store.api.OrderState;
 import edu.duan.app.store.service.executor.*;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OrderStateProvider {
     private final NewOrderStateHandler newOrderStateHandler;
     private final CompletedOrderStateHandler completedOrderStateHandler;

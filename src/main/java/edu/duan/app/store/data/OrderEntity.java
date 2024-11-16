@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import java.sql.Timestamp;
 
 @Entity(name = "orders")
+@SequenceGenerator(name = "orders_generator", sequenceName = "orders_seq", allocationSize = 1)
 @Getter
 @Setter
 @Builder
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class OrderEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_generator")
     private int id;
     @ManyToOne(cascade=CascadeType.ALL)
     private UserEntity user;
